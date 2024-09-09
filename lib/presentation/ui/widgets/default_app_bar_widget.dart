@@ -3,8 +3,13 @@ import 'package:go_router/go_router.dart';
 
 class DefaultAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const DefaultAppBarWidget({super.key, this.showBackButton = false});
+  const DefaultAppBarWidget({
+    super.key,
+    this.showBackButton = false,
+    required this.title,
+  });
 
+  final String title;
   final bool showBackButton;
 
   @override
@@ -13,7 +18,7 @@ class DefaultAppBarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('PokeDex'),
+      title: Text(title),
       elevation: 2,
       centerTitle: true,
       leading: showBackButton

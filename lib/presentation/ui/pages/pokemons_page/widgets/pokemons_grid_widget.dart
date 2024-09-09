@@ -1,21 +1,23 @@
 import 'package:faker/faker.dart' as faker;
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pokedex/domain/data/iget_pokemons_data.dart';
+import 'package:pokedex/presentation/ui/widgets/pokemon_image_widget.dart';
 import 'package:pokedex/utils/string_extensions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../domain/entities/pokemon_entity.dart';
-import './pokemon_types_widget.dart';
+import '../../../widgets/pokemon_types_widget.dart';
 
 class PokemonsGridWidget extends StatelessWidget {
   const PokemonsGridWidget({
     super.key,
+    required this.onTap,
     required this.pokemons,
     required this.isLoading,
   });
 
   final bool isLoading;
-  final List<PokemonEntity> pokemons;
+  final List<PokemonModel> pokemons;
+  final Function(PokemonModel) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,10 @@ class PokemonsGridWidget extends StatelessWidget {
     if (isLoading) {
       return Skeletonizer(
         child: _PokemonGrid(
+          onTap: (_) {},
           pokemons: List.generate(
             faker.faker.randomGenerator.integer(20),
-            (index) => PokemonEntity(
+            (index) => PokemonModel(
               id: index,
               name: faker.faker.lorem.word(),
               height: faker.faker.randomGenerator.integer(100),
@@ -38,7 +41,7 @@ class PokemonsGridWidget extends StatelessWidget {
               imageUrl: faker.faker.image.image(keywords: ['animals']),
               stats: List.generate(
                 faker.faker.randomGenerator.integer(3),
-                (_) => PokemonStats(
+                (_) => PokemonStatsModel(
                   name: faker.faker.lorem.word(),
                   effort: faker.faker.randomGenerator.integer(3),
                   baseStat: faker.faker.randomGenerator.integer(3),
@@ -54,7 +57,10 @@ class PokemonsGridWidget extends StatelessWidget {
               ),
               types: List.generate(
                 faker.faker.randomGenerator.integer(3),
-                (_) => faker.faker.lorem.word(),
+                (_) => PokemonTypeModel(
+                  name: faker.faker.lorem.word(),
+                  color: Colors.red,
+                ),
               ),
             ),
           ),
@@ -62,14 +68,18 @@ class PokemonsGridWidget extends StatelessWidget {
       );
     }
 
-    return _PokemonGrid(pokemons: pokemons);
+    return _PokemonGrid(pokemons: pokemons, onTap: onTap);
   }
 }
 
 class _PokemonGrid extends StatelessWidget {
-  const _PokemonGrid({required this.pokemons});
+  const _PokemonGrid({
+    required this.onTap,
+    required this.pokemons,
+  });
 
-  final List<PokemonEntity> pokemons;
+  final List<PokemonModel> pokemons;
+  final Function(PokemonModel) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -83,30 +93,24 @@ class _PokemonGrid extends StatelessWidget {
       itemCount: pokemons.length,
       itemBuilder: (_, index) {
         final pokemon = pokemons[index];
-        final imageIsSvg = pokemon.imageUrl.endsWith('.svg');
 
-        return Card(
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                if (!imageIsSvg)
-                  Image.network(
-                    pokemon.imageUrl,
-                    fit: BoxFit.scaleDown,
-                    height: 100,
+        return InkWell(
+          onTap: () => onTap(pokemon),
+          child: Card(
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  Hero(
+                    tag: pokemon.id,
+                    child: PokemonImageWidget(imageUrl: pokemon.imageUrl),
                   ),
-                if (imageIsSvg)
-                  SvgPicture.network(
-                    pokemon.imageUrl,
-                    fit: BoxFit.scaleDown,
-                    height: 100,
-                  ),
-                const SizedBox(height: 16),
-                Text(pokemon.name.capitalize()),
-                PokemonTypesWidget(types: pokemon.types),
-              ],
+                  const SizedBox(height: 16),
+                  Text(pokemon.name.capitalize()),
+                  PokemonTypesWidget(types: pokemon.types),
+                ],
+              ),
             ),
           ),
         );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/protocols/ipokemon_controller.dart';
-import 'package:pokedex/ui/pages/pokemons_page/widgets/pokemons_grid_widget.dart';
-import 'package:pokedex/ui/widgets/default_app_bar_widget.dart';
+import 'package:pokedex/presentation/protocols/ipokemon_controller.dart';
+import 'package:pokedex/presentation/ui/pages/pokemons_page/widgets/pokemons_grid_widget.dart';
+import 'package:pokedex/presentation/ui/widgets/default_app_bar_widget.dart';
 
 class PokemonsPage extends StatefulWidget {
   const PokemonsPage({
@@ -26,7 +26,7 @@ class _PokemonsPageState extends State<PokemonsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DefaultAppBarWidget(showBackButton: true),
+      appBar: const DefaultAppBarWidget(title: 'PokeDex', showBackButton: true),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -46,6 +46,8 @@ class _PokemonsPageState extends State<PokemonsPage> {
                 builder: (context, value, child) => PokemonsGridWidget(
                   pokemons: value.pokemons,
                   isLoading: value.isLoading,
+                  onTap: (pokemon) => widget.pokemonController
+                      .handlePokemonTap(pokemon, context),
                 ),
               ),
             ),

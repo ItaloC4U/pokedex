@@ -1,5 +1,4 @@
 import 'package:pokedex/domain/data/iget_pokemons_data.dart';
-import 'package:pokedex/domain/entities/pokemon_entity.dart';
 import 'package:pokedex/infra/providers/poke_api/dtos/get_pokemons_dto.dart';
 import 'package:pokedex/infra/providers/poke_api/dtos/pokemons_details_dto.dart';
 import 'package:pokedex/infra/providers/poke_api/poke_base_api.dart';
@@ -7,7 +6,7 @@ import 'package:pokedex/infra/providers/poke_api/poke_base_api.dart';
 class PokeApiGetPokemonsProvider extends PokeBaseApi
     implements IGetPokemonsData {
   @override
-  Future<List<PokemonEntity>> getPokemons() async {
+  Future<List<PokemonModel>> getPokemons() async {
     final pokemons = await http.get('/pokemon');
 
     if (pokemons.data == null) return [];

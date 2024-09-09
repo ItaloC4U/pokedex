@@ -72,38 +72,42 @@ class ToastUtil implements IToastUtil {
     ToastVariant variant = ToastVariant.info,
     VoidCallback? onRetry,
   }) {
-    SnackBar(
-      margin: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 12,
-      ),
-      behavior: SnackBarBehavior.floating,
-      elevation: 2,
-      backgroundColor: _getColor(variant),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      content: Row(
-        children: [
-          _ToastIcon(variant: variant),
-          const SizedBox(width: 12),
-          Flexible(
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.white,
+    if (scaffoldGlobalKey.currentContext == null) return;
+
+    ScaffoldMessenger.of(scaffoldGlobalKey.currentContext!).showSnackBar(
+      SnackBar(
+        margin: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 12,
+        ),
+        behavior: SnackBarBehavior.floating,
+        elevation: 2,
+        backgroundColor: _getColor(variant),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: Row(
+          children: [
+            _ToastIcon(variant: variant),
+            const SizedBox(width: 12),
+            Flexible(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        action: onRetry == null
+            ? null
+            : SnackBarAction(
+                label: 'TENTAR\nNOVAMENTE',
+                textColor: Colors.white,
+                onPressed: onRetry,
+              ),
       ),
-      action: onRetry == null
-          ? null
-          : SnackBarAction(
-              label: 'TENTAR\nNOVAMENTE',
-              textColor: Colors.white,
-              onPressed: onRetry,
-            ),
     );
   }
 }

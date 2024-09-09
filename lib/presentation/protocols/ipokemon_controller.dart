@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/domain/entities/pokemon_entity.dart';
+import 'package:pokedex/domain/data/iget_pokemons_data.dart';
 
 class PokemonControllerState {
   final bool isLoading;
-  final List<PokemonEntity> pokemons;
+  final List<PokemonModel> pokemons;
 
   PokemonControllerState({
     required this.pokemons,
@@ -16,7 +16,7 @@ class PokemonControllerState {
   });
 
   PokemonControllerState copyWith({
-    List<PokemonEntity>? pokemons,
+    List<PokemonModel>? pokemons,
     bool? isLoading,
     String? error,
   }) {
@@ -32,4 +32,5 @@ abstract class IPokemonController
   IPokemonController() : super(PokemonControllerState.empty());
 
   Future<void> fetchPokemons();
+  void handlePokemonTap(PokemonModel pokemon, BuildContext context);
 }

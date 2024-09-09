@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/protocols/iuser_store.dart';
-import 'package:pokedex/ui/widgets/default_app_bar_widget.dart';
+import 'package:pokedex/presentation/protocols/iuser_store.dart';
+import 'package:pokedex/presentation/ui/widgets/default_app_bar_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({
@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DefaultAppBarWidget(),
+      appBar: const DefaultAppBarWidget(title: 'PokeDex'),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(

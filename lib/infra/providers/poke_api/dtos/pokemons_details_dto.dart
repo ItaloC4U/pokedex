@@ -1,4 +1,7 @@
-import 'package:pokedex/domain/entities/pokemon_entity.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:ui';
+
+import 'package:pokedex/domain/data/iget_pokemons_data.dart';
 
 class PokemonMovesDTO {
   final String name;
@@ -43,13 +46,68 @@ class PokemonAbilitiesDTO {
 }
 
 class PokemonTypesDTO {
-  final String name;
-
-  PokemonTypesDTO({required this.name});
+  PokemonTypesDTO({
+    required this.name,
+    required this.color,
+  });
 
   factory PokemonTypesDTO.fromJson(Map<String, dynamic> json) {
     return PokemonTypesDTO(
-      name: json['type']['name'],
+      name: json['type']['name'] ?? '',
+      color: _getColorByType(json['type']['name']),
+    );
+  }
+
+  static Color _getColorByType(String type) {
+    switch (type) {
+      case 'fire':
+        return const Color(0xffEE8130);
+      case 'water':
+        return const Color(0xff6390F0);
+      case 'electric':
+        return const Color(0xffF7D02C);
+      case 'grass':
+        return const Color(0xff7AC74C);
+      case 'ice':
+        return const Color(0xff96D9D6);
+      case 'fighting':
+        return const Color(0xffC22E28);
+      case 'poison':
+        return const Color(0xffA33EA1);
+      case 'ground':
+        return const Color(0xffE2BF65);
+      case 'flying':
+        return const Color(0xffA98FF3);
+      case 'psychic':
+        return const Color(0xffF95587);
+      case 'bug':
+        return const Color(0xffA6B91A);
+      case 'rock':
+        return const Color(0xffB6A136);
+      case 'ghost':
+        return const Color(0xff735797);
+      case 'dragon':
+        return const Color(0xff6F35FC);
+      case 'dark':
+        return const Color(0xff705746);
+      case 'steel':
+        return const Color(0xffB7B7CE);
+      case 'fairy':
+        return const Color(0xffD685AD);
+
+      case 'normal':
+      default:
+        return const Color(0xffA8A77A);
+    }
+  }
+
+  final String name;
+  final Color color;
+
+  PokemonTypeModel toModel() {
+    return PokemonTypeModel(
+      name: name,
+      color: color,
     );
   }
 }
@@ -113,11 +171,11 @@ class PokemonDetailsDTO {
   final List<PokemonStatsDTO> stats;
   final List<PokemonAbilitiesDTO> abilities;
 
-  PokemonEntity toEntity() {
-    return PokemonEntity(
+  PokemonModel toEntity() {
+    return PokemonModel(
       id: id,
       name: name,
-      types: types.map((type) => type.name).toList(),
+      types: types.map((type) => type.toModel()).toList(),
       moves: moves.map((move) => move.name).toList(),
       height: height,
       weight: weight,
@@ -125,7 +183,7 @@ class PokemonDetailsDTO {
       abilities: abilities.map((ability) => ability.name).toList(),
       stats: stats
           .map(
-            (stat) => PokemonStats(
+            (stat) => PokemonStatsModel(
               name: stat.name,
               effort: stat.effort,
               baseStat: stat.baseStat,
@@ -135,81 +193,3 @@ class PokemonDetailsDTO {
     );
   }
 }
-
-
-//  "abilities": [
-//         {
-//             "ability": {
-//                 "name": "overgrow",
-//                 "url": "https://pokeapi.co/api/v2/ability/65/"
-//             },
-//             "is_hidden": false,
-//             "slot": 1
-//         },
-//         {
-//             "ability": {
-//                 "name": "chlorophyll",
-//                 "url": "https://pokeapi.co/api/v2/ability/34/"
-//             },
-//             "is_hidden": true,
-//             "slot": 3
-//         }
-//     ],
-
-
-  //   "types": [
-  //       {
-  //           "slot": 1,
-  //           "type": {
-  //               "name": "grass",
-  //               "url": "https://pokeapi.co/api/v2/type/12/"
-  //           }
-  //       },
-  //       {
-  //           "slot": 2,
-  //           "type": {
-  //               "name": "poison",
-  //               "url": "https://pokeapi.co/api/v2/type/4/"
-  //           }
-  //       }
-  //   ],
-
-
-  // "height": 7,
-  // "name": "bulbasaur",
-  //  "stats": [
-  //       {
-  //           "base_stat": 65,
-  //           "effort": 0,
-  //           "stat": {
-  //               "name": "special-defense",
-  //               "url": "https://pokeapi.co/api/v2/stat/5/"
-  //           }
-  //       },
-  //       {
-  //           "base_stat": 45,
-  //           "effort": 0,
-  //           "stat": {
-  //               "name": "speed",
-  //               "url": "https://pokeapi.co/api/v2/stat/6/"
-  //           }
-  //       }
-  //   ],
-
-  //   "weight": 69
-  
-  // "sprites": {
-  //       "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-
-  //  "dream_world": {
-  //               "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
-  //               "front_female": null
-  //           },
-
-  //   "moves": [
-  //       {
-  //           "move": {
-  //               "name": "razor-wind",
-  //               "url": "https://pokeapi.co/api/v2/move/13/"
-  //           },
-  //       },

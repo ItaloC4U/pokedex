@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/protocols/iuser_store.dart';
+import 'package:pokedex/presentation/protocols/iuser_store.dart';
 
 class UserStore extends ValueNotifier<UserStoreState> implements IUserStore {
   UserStore() : super(UserStoreState.empty()) {
