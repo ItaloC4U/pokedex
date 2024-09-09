@@ -1,12 +1,12 @@
 class PokemonStats {
   final int effort;
   final String name;
-  final int baseStat;
+  final int? baseStat;
 
   PokemonStats({
     required this.name,
     required this.effort,
-    required this.baseStat,
+    this.baseStat,
   });
 }
 

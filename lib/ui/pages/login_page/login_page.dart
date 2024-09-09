@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/protocols/iuser_store.dart';
+import 'package:pokedex/ui/widgets/default_app_bar_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({
@@ -12,23 +13,35 @@ class LoginPage extends StatelessWidget {
 
   void handleLogin(BuildContext ctx) {
     userStore.fetchUser();
-    ctx.go('/pokemons');
+    ctx.push('/pokemons');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('PokeDex'),
-      ),
-      body: Center(
+      appBar: const DefaultAppBarWidget(),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Text('Login Page'),
+            const Text(
+              'Login Page',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
             ElevatedButton(
               onPressed: () => handleLogin(context),
-              child: const Text('Login'),
+              child: const Text(
+                'LOGIN',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

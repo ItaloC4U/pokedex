@@ -16,20 +16,20 @@ class PokemonStatsDTO {
   PokemonStatsDTO({
     required this.effort,
     required this.name,
-    required this.baseStat,
+    this.baseStat,
   });
 
   factory PokemonStatsDTO.fromJson(Map<String, dynamic> json) {
     return PokemonStatsDTO(
       effort: json['effort'],
       name: json['stat']['name'],
-      baseStat: json['baseStat'],
+      baseStat: json['base_stat'],
     );
   }
 
   final int effort;
   final String name;
-  final int baseStat;
+  final int? baseStat;
 }
 
 class PokemonAbilitiesDTO {

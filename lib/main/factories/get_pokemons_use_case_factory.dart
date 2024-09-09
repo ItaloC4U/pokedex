@@ -3,7 +3,5 @@ import 'package:pokedex/infra/providers/poke_api/providers/poke_api_get_pokemons
 
 class GetPokemonsUseCaseFactory extends GetPokemonsUseCase {
   GetPokemonsUseCaseFactory()
-      : super(
-          getPokemonsData: PokeApiGetPokemonsProvider(),
-        );
+      : super(getPokemonsData: PokeApiGetPokemonsProvider());
 }

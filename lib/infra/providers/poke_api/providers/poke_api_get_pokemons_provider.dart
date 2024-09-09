@@ -27,6 +27,7 @@ class PokeApiGetPokemonsProvider extends PokeBaseApi
       ),
     );
 
+    pokemonDetails.sort((a, b) => a.id < b.id ? -1 : 1);
     return pokemonDetails.map((pokemon) => pokemon.toEntity()).toList();
   }
 }

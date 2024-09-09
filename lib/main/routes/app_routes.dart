@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/main/builders/login_page_builder.dart';
+import 'package:pokedex/ui/controllers/pokemon_controller.dart';
 import 'package:pokedex/ui/pages/pokemon_details_page/pokemon_details_page.dart';
 import 'package:pokedex/ui/pages/pokemons_page/pokemons_page.dart';
+import 'package:pokedex/utils/inject_util.dart';
 
 final GoRouter routes = GoRouter(
   routes: <RouteBase>[
@@ -15,7 +17,11 @@ final GoRouter routes = GoRouter(
     GoRoute(
       path: '/pokemons',
       builder: (BuildContext context, GoRouterState state) {
-        return const PokemonsPage();
+        return PokemonsPage(
+          pokemonController: PokemonController(
+            toastUtil: Inject.get(),
+          ),
+        );
       },
       routes: <RouteBase>[
         GoRoute(
