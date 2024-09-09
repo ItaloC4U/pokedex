@@ -31,14 +31,15 @@ class PokemonController extends ValueNotifier<PokemonControllerState>
   @override
   Future<void> fetchPokemons() async {
     try {
-      if (value.pokemons.isEmpty) value.copyWith(isLoading: true);
+      value = value.copyWith(isLoading: true);
 
       final pokemons = await getPokemonsData.getPokemons();
       value = value.copyWith(pokemons: pokemons);
     } catch (error) {
       toastUtil.show(error.toString(), variant: ToastVariant.severe);
+      logData.logError(error.toString(), {});
     } finally {
-      if (value.pokemons.isEmpty) value.copyWith(isLoading: false);
+      value = value.copyWith(isLoading: false);
     }
   }
 
